@@ -1,0 +1,173 @@
+<div class="page-container">
+  @if (isLoading()) {
+    <div class="loading-overlay">
+      <mat-spinner aria-label="Loading application"></mat-spinner>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="error-banner" role="alert">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ error() }}</span>
+      <button mat-stroked-button (click)="goBack()">Back to Dashboard</button>
+    </div>
+  }
+
+  @if (!isLoading() && application(); as app) {
+    <div class="detail-header">
+      <button mat-icon-button (click)="goBack()" aria-label="Back to dashboard">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div class="header-info">
+        <h1 class="app-title">{{ app.businessName }}</h1>
+        <app-status-badge [status]="app.status" />
+      </div>
+      @if (auth.hasRole('SALES') && app.status === 'DRAFT') {
+        <a mat-stroked-button [routerLink]="['/applications', app.id, 'edit']">
+          <mat-icon>edit</mat-icon> Edit
+        </a>
+      }
+    </div>
+
+    <div class="detail-grid">
+      <!-- Business Info -->
+      <mat-card>
+        <mat-card-header>
+          <mat-icon mat-card-avatar>business</mat-icon>
+          <mat-card-title>Business Information</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="info-grid">
+            <div class="info-item"><span class="label">Business Name</span><span class="value">{{ app.businessName }}</span></div>
+            <div class="info-item"><span class="label">Business Type</span><span class="value">{{ app.businessType }}</span></div>
+            <div class="info-item"><span class="label">Registration #</span><span class="value">{{ app.registrationNumber }}</span></div>
+            <div class="info-item">
+              <span class="label">Tax ID</span>
+              <span class="value"><app-sensitive-field [value]="app.taxId" /></span>
+            </div>
+            <div class="info-item"><span class="label">Website</span><span class="value">{{ app.website || '—' }}</span></div>
+            <div class="info-item full">
+              <span class="label">Address</span>
+              <span class="value">{{ app.address?.street }}, {{ app.address?.city }}, {{ app.address?.state }} {{ app.address?.zip }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Owner Info -->
+      <mat-card>
+        <mat-card-header>
+          <mat-icon mat-card-avatar>person</mat-icon>
+          <mat-card-title>Owner Information</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="info-grid">
+            <div class="info-item"><span class="label">Owner Name</span><span class="value">{{ app.ownerName }}</span></div>
+            <div class="info-item"><span class="label">Email</span><span class="value">{{ app.ownerEmail }}</span></div>
+            <div class="info-item"><span class="label">Phone</span><span class="value">{{ app.ownerPhone }}</span></div>
+            <div class="info-item">
+              <span class="label">SSN</span>
+              <span class="value"><app-sensitive-field [value]="app.ownerSsn" /></span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Financial Info -->
+      <mat-card>
+        <mat-card-header>
+          <mat-icon mat-card-avatar>account_balance</mat-icon>
+          <mat-card-title>Financial Details</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="info-grid">
+            <div class="info-item"><span class="label">Bank Name</span><span class="value">{{ app.bankName }}</span></div>
+            <div class="info-item">
+              <span class="label">Account #</span>
+              <span class="value"><app-sensitive-field [value]="app.bankAccount" /></span>
+            </div>
+            <div class="info-item">
+              <span class="label">Routing #</span>
+              <span class="value"><app-sensitive-field [value]="app.routingNumber" /></span>
+            </div>
+            <div class="info-item"><span class="label">Annual Revenue</span><span class="value">{{ app.annualRevenue | currency:'USD':'symbol':'1.0-0' }}</span></div>
+            <div class="info-item"><span class="label">Business Age</span><span class="value">{{ app.businessAgeYears }} year(s)</span></div>
+            <div class="info-item"><span class="label">Monthly Volume</span><span class="value">{{ app.expectedMonthlyVolume | currency:'USD':'symbol':'1.0-0' }}</span></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Risk History -->
+      <mat-card class="full-width">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>history</mat-icon>
+          <mat-card-title>Risk Decision History</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          @if (riskHistory().length === 0) {
+            <p class="no-history">No decisions recorded yet.</p>
+          } @else {
+            <table mat-table [dataSource]="riskHistory()" aria-label="Risk decision history">
+              <ng-container matColumnDef="createdAt">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let r">{{ formatDate(r.createdAt) }}</td>
+              </ng-container>
+              <ng-container matColumnDef="reviewerName">
+                <th mat-header-cell *matHeaderCellDef>Reviewer</th>
+                <td mat-cell *matCellDef="let r">{{ r.reviewerName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="decision">
+                <th mat-header-cell *matHeaderCellDef>Decision</th>
+                <td mat-cell *matCellDef="let r">
+                  <mat-chip [class]="r.decision === 'APPROVED' ? 'status-approved' : 'status-rejected'" disableRipple>
+                    {{ r.decision }}
+                  </mat-chip>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="notes">
+                <th mat-header-cell *matHeaderCellDef>Notes</th>
+                <td mat-cell *matCellDef="let r">{{ r.notes }}</td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="riskColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: riskColumns;"></tr>
+            </table>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Reviewer Panel — hidden from SALES -->
+      @if (auth.hasRole('REVIEWER', 'ADMIN')) {
+        <mat-card class="full-width reviewer-panel">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>gavel</mat-icon>
+            <mat-card-title>Record Decision</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form [formGroup]="reviewForm">
+              <mat-form-field appearance="outline" class="notes-field">
+                <mat-label>Decision Notes *</mat-label>
+                <textarea matInput formControlName="notes" rows="4"
+                  placeholder="Explain your decision…" aria-label="Decision notes"></textarea>
+                @if (reviewForm.get('notes')?.hasError('required') && reviewForm.get('notes')?.touched) {
+                  <mat-error>Notes are required before making a decision</mat-error>
+                }
+              </mat-form-field>
+            </form>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="approve()"
+              [disabled]="isDeciding()" aria-label="Approve application">
+              <mat-icon>check_circle</mat-icon>
+              {{ isDeciding() ? 'Processing…' : 'Approve' }}
+            </button>
+            <button mat-raised-button color="warn" (click)="reject()"
+              [disabled]="isDeciding()" aria-label="Reject application">
+              <mat-icon>cancel</mat-icon>
+              Reject
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

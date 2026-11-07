@@ -1,0 +1,78 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">{{ isEditMode() ? 'Edit Application' : 'New Merchant Application' }}</h1>
+    @if (saveStatus() !== 'idle') {
+      <mat-chip [color]="getSaveStatusColor()" disableRipple>
+        <mat-icon matChipAvatar>{{ saveStatus() === 'saving' ? 'sync' : saveStatus() === 'saved' ? 'check_circle' : 'error' }}</mat-icon>
+        {{ getSaveStatusLabel() }}
+      </mat-chip>
+    }
+  </div>
+
+  @if (isSubmitting()) {
+    <mat-progress-bar mode="indeterminate" aria-label="Submitting application"></mat-progress-bar>
+  }
+
+  <mat-card>
+    <mat-card-content>
+      <mat-stepper linear #stepper class="form-stepper">
+
+        <!-- Step 1: Business Info -->
+        <mat-step [stepControl]="businessInfoForm" label="Business Info">
+          <app-step-business-info [form]="businessInfoForm" />
+          <div class="step-actions">
+            <button mat-raised-button color="primary" matStepperNext
+              [disabled]="businessInfoForm.invalid">
+              Next <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+            </button>
+          </div>
+        </mat-step>
+
+        <!-- Step 2: Owner Info -->
+        <mat-step [stepControl]="ownerInfoForm" label="Owner Info">
+          <app-step-owner-info [form]="ownerInfoForm" />
+          <div class="step-actions">
+            <button mat-stroked-button matStepperPrevious>
+              <mat-icon>arrow_back</mat-icon> Back
+            </button>
+            <button mat-raised-button color="primary" matStepperNext
+              [disabled]="ownerInfoForm.invalid">
+              Next <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+            </button>
+          </div>
+        </mat-step>
+
+        <!-- Step 3: Financial -->
+        <mat-step [stepControl]="financialForm" label="Financial">
+          <app-step-financial [form]="financialForm" />
+          <div class="step-actions">
+            <button mat-stroked-button matStepperPrevious>
+              <mat-icon>arrow_back</mat-icon> Back
+            </button>
+            <button mat-raised-button color="primary" matStepperNext
+              [disabled]="financialForm.invalid">
+              Next <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+            </button>
+          </div>
+        </mat-step>
+
+        <!-- Step 4: Review & Submit -->
+        <mat-step label="Review & Submit">
+          <app-step-review-submit [form]="form" />
+          <div class="step-actions">
+            <button mat-stroked-button matStepperPrevious>
+              <mat-icon>arrow_back</mat-icon> Back
+            </button>
+            <button mat-raised-button color="primary" (click)="submit()"
+              [disabled]="form.invalid || isSubmitting()"
+              aria-label="Submit application">
+              <mat-icon>send</mat-icon>
+              {{ isSubmitting() ? 'Submitting…' : 'Submit Application' }}
+            </button>
+          </div>
+        </mat-step>
+
+      </mat-stepper>
+    </mat-card-content>
+  </mat-card>
+</div>

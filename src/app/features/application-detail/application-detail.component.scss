@@ -1,0 +1,64 @@
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+
+  .header-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    .app-title {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 500;
+    }
+  }
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 16px;
+
+  .full-width { grid-column: 1 / -1; }
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  padding-top: 8px;
+
+  .full { grid-column: 1 / -1; }
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  .label { font-size: 11px; font-weight: 500; color: rgba(0,0,0,0.5); text-transform: uppercase; letter-spacing: 0.5px; }
+  .value { font-size: 14px; }
+}
+
+.no-history { color: rgba(0,0,0,0.5); font-style: italic; padding: 8px 0; }
+
+.reviewer-panel {
+  border-left: 4px solid #1565c0;
+
+  .notes-field { width: 100%; margin-top: 8px; }
+
+  mat-card-actions {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .detail-grid { grid-template-columns: 1fr; }
+}

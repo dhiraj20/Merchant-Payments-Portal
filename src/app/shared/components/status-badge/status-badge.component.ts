@@ -1,0 +1,29 @@
+import { Component, Input } from '@angular/core';
+import { MatChip } from '@angular/material/chips';
+import { AppStatus } from '../../../core/models/merchant.model';
+
+@Component({
+  selector: 'app-status-badge',
+  standalone: true,
+  imports: [MatChip],
+  template: `
+    <mat-chip [class]="'status-' + status.toLowerCase()" disableRipple>
+      {{ label }}
+    </mat-chip>
+  `,
+  styles: [`
+    mat-chip { font-size: 12px; font-weight: 500; min-height: 24px; }
+    .status-draft { background: #e3f2fd !important; color: #1565c0 !important; }
+    .status-submitted { background: #fff3e0 !important; color: #e65100 !important; }
+    .status-under_review { background: #f3e5f5 !important; color: #6a1b9a !important; }
+    .status-approved { background: #e8f5e9 !important; color: #2e7d32 !important; }
+    .status-rejected { background: #ffebee !important; color: #c62828 !important; }
+  `],
+})
+export class StatusBadgeComponent {
+  @Input() status: AppStatus = 'DRAFT';
+
+  get label(): string {
+    return this.status.replace('_', ' ');
+  }
+}

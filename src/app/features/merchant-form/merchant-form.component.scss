@@ -1,0 +1,25 @@
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+
+  .page-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+    flex: 1;
+  }
+}
+
+.form-stepper {
+  .step-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    justify-content: flex-end;
+  }
+}
