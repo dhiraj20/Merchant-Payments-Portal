@@ -1,0 +1,19 @@
+.sensitive-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.sensitive-value {
+  font-family: monospace;
+  letter-spacing: 2px;
+}
+.reveal-btn {
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+}
+.reveal-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}

@@ -9,49 +9,8 @@ import { Role } from '../../../core/models/user.model';
   selector: 'app-sensitive-field',
   standalone: true,
   imports: [MatIconButton, MatIcon, MatTooltip],
-  template: `
-    <span class="sensitive-wrapper">
-      <span class="sensitive-value" [attr.aria-label]="revealed() ? 'Sensitive value revealed' : 'Sensitive value masked'">
-        @if (revealed()) {
-          {{ value }}
-        } @else {
-          {{ masked() }}
-        }
-      </span>
-      @if (canReveal()) {
-        <button
-          mat-icon-button
-          class="reveal-btn"
-          (click)="toggle()"
-          [matTooltip]="revealed() ? 'Hide' : 'Reveal'"
-          [attr.aria-label]="revealed() ? 'Hide sensitive value' : 'Reveal sensitive value'"
-        >
-          <mat-icon>{{ revealed() ? 'visibility_off' : 'visibility' }}</mat-icon>
-        </button>
-      }
-    </span>
-  `,
-  styles: [`
-    .sensitive-wrapper {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .sensitive-value {
-      font-family: monospace;
-      letter-spacing: 2px;
-    }
-    .reveal-btn {
-      width: 24px;
-      height: 24px;
-      line-height: 24px;
-    }
-    .reveal-btn mat-icon {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-    }
-  `],
+  templateUrl: './sensitive-field.component.html',
+  styleUrl: './sensitive-field.component.scss',
 })
 export class SensitiveFieldComponent {
   @Input() value = '';

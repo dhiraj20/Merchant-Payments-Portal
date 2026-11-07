@@ -54,11 +54,11 @@
       "annualRevenue": 1200000,
       "businessAgeYears": 8,
       "expectedMonthlyVolume": 100000,
-      "status": "SUBMITTED",
-      "assignedReviewerId": "2",
+      "status": "UNDER_REVIEW",
+      "assignedReviewerId": "",
       "createdBy": "1",
       "createdAt": "2026-10-01T10:00:00Z",
-      "updatedAt": "2026-10-02T12:00:00Z"
+      "updatedAt": "2026-11-07T17:08:34.834Z"
     },
     {
       "id": "app-002",

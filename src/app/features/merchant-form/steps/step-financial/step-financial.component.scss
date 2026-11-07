@@ -1,0 +1,7 @@
+.step-content { padding: 8px 0; }
+.form-row { margin-bottom: 8px; }
+.full-width { width: 100%; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+mat-form-field { width: 100%; }
+.cross-field-error { color: #c62828; font-size: 12px; margin: -4px 0 12px 16px; }
+@media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }

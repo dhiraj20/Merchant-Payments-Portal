@@ -1,0 +1,20 @@
+<span class="sensitive-wrapper">
+  <span class="sensitive-value" [attr.aria-label]="revealed() ? 'Sensitive value revealed' : 'Sensitive value masked'">
+    @if (revealed()) {
+      {{ value }}
+    } @else {
+      {{ masked() }}
+    }
+  </span>
+  @if (canReveal()) {
+    <button
+      mat-icon-button
+      class="reveal-btn"
+      (click)="toggle()"
+      [matTooltip]="revealed() ? 'Hide' : 'Reveal'"
+      [attr.aria-label]="revealed() ? 'Hide sensitive value' : 'Reveal sensitive value'"
+    >
+      <mat-icon>{{ revealed() ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </button>
+  }
+</span>

@@ -1,0 +1,27 @@
+.page-header {
+  margin-bottom: 24px;
+  .page-title { margin: 0; font-size: 24px; font-weight: 500; }
+}
+.reviewer-select {
+  width: 220px;
+
+  ::ng-deep {
+    .mat-mdc-text-field-wrapper { padding: 0 8px; }
+    .mat-mdc-form-field-infix {
+      padding-top: 5px !important;
+      padding-bottom: 5px !important;
+      min-height: 32px !important;
+    }
+    .mat-mdc-select-trigger { height: 22px; }
+  }
+}
+
+td.mat-column-assignedTo {
+  vertical-align: middle;
+  text-align: center;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.link { color: #1565c0; text-decoration: none; &:hover { text-decoration: underline; } }
+.no-data { text-align: center; padding: 32px; color: rgba(0,0,0,0.5); }
+table { width: 100%; }

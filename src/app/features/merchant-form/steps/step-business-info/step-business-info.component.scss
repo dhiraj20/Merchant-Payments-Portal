@@ -1,0 +1,10 @@
+.step-content { padding: 8px 0; }
+.form-row { margin-bottom: 8px; }
+.full-width { width: 100%; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.section-subtitle { margin: 16px 0 8px; font-size: 14px; font-weight: 500; color: rgba(0,0,0,0.6); }
+mat-form-field { width: 100%; }
+@media (max-width: 600px) {
+  .two-col, .three-col { grid-template-columns: 1fr; }
+}

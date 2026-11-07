@@ -1,0 +1,65 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar class="brand-icon">account_balance</mat-icon>
+      <mat-card-title>Merchant Payments Portal</mat-card-title>
+      <mat-card-subtitle>Sign in to your account</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="login()" class="login-form">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" type="email"
+            placeholder="user@example.com" autocomplete="email" />
+          <mat-icon matSuffix>email</mat-icon>
+          @if (form.get('email')?.hasError('required') && form.get('email')?.touched) {
+            <mat-error>Email is required</mat-error>
+          }
+          @if (form.get('email')?.hasError('email') && form.get('email')?.touched) {
+            <mat-error>Enter a valid email</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password"
+            [type]="showPassword ? 'text' : 'password'" autocomplete="current-password" />
+          <button mat-icon-button matSuffix type="button"
+            (click)="showPassword = !showPassword"
+            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+            <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (form.get('password')?.hasError('required') && form.get('password')?.touched) {
+            <mat-error>Password is required</mat-error>
+          }
+        </mat-form-field>
+
+        @if (error()) {
+          <div class="login-error" role="alert">
+            <mat-icon>error_outline</mat-icon>
+            {{ error() }}
+          </div>
+        }
+
+        <button mat-raised-button color="primary" type="submit"
+          class="full-width submit-btn" [disabled]="form.invalid || isLoading()">
+          @if (isLoading()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            Sign In
+          }
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-footer>
+      <div class="demo-credentials">
+        <strong>Demo credentials:</strong>
+        <div class="cred-row">sales&#64;test.com / pass <em>(SALES)</em></div>
+        <div class="cred-row">reviewer&#64;test.com / pass <em>(REVIEWER)</em></div>
+        <div class="cred-row">admin&#64;test.com / pass <em>(ADMIN)</em></div>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+</div>

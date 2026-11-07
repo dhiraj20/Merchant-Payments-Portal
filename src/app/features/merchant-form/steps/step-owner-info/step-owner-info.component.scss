@@ -1,0 +1,6 @@
+.step-content { padding: 8px 0; }
+.form-row { margin-bottom: 8px; }
+.full-width { width: 100%; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+mat-form-field { width: 100%; }
+@media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
